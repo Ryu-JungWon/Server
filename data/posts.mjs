@@ -2,7 +2,7 @@ import MongoDB, { ObjectId } from "mongodb"
 import * as UserRepository from "./auth.mjs"
 import { getPosts } from "../db/database.mjs"
 
-// 포스트를 작성
+// 포스트 작성
 export async function create(text, id) {
     return UserRepository.findById(id).then((user) => getPosts().insertOne({
         text, 
@@ -28,6 +28,11 @@ export async function getAllByUserid(userid) {
 // 글 번호(id)에 대한 포스트를 리턴
 export async function getById(id) {
     return getPosts().find({ _id: new ObjectId(id) }).next().then(mapOptionalPost)
+}
+
+// 포스트 삭제
+export async function remove(id) {
+    return getPosts().deleteOne({ _id: new ObjectId(id) })
 }
 
 function mapOptionalPost(post){
