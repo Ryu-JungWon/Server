@@ -35,6 +35,15 @@ export async function remove(id) {
     return getPosts().deleteOne({ _id: new ObjectId(id) })
 }
 
+// 포스트 변경
+export async function update(id, text) {
+    return getPosts().findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: { text } },
+        { returnDocument: "after" }
+    ).then((result) => result)
+}
+
 function mapOptionalPost(post){
     return post ? { ...post, id: post._id.toString() } : post
 }
